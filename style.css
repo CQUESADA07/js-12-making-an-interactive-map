@@ -1,0 +1,30 @@
+body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+form select{
+    margin: 10px  auto;
+    width: 50%;
+}
+
+form button{
+    margin: auto;
+    width: 50%;
+}
+
+#map{
+    margin: 10px  auto;
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+}
