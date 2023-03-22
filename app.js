@@ -11,14 +11,20 @@ const myMap = {
     map: {},
     markers: {},
     generateMap(){
-        var map = L.map('map').setView([this.coordinates[0],this.coordinates[1]], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-    
-    var marker = L.marker([this.coordinates[0],this.coordinates[1]]).addTo(map)
-    marker.bindPopup("<b>You are here!</b>").openPopup();
+        this.map = L.map('map', {
+            center: this.coordinates,
+            zoom: 20,
+            });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: '14',
+            }).addTo(this.map)
+            const marker = L.marker(this.coordinates)
+            marker
+            .addTo(this.map)
+            .bindPopup('<p1><b>You are here</b><br></p1>')
+            .openPopup()
     },
     addMarkers() {
 		for (var i = 0; i < this.business.length; i++) {
@@ -32,20 +38,22 @@ const myMap = {
 	},
 }
 
-
-async function getFoursquare(business){
-    const options = {method: 'GET', headers: {accept: 'application/json'}, Authorization: 'fsq3Dy3NqGGBdLMDdyQnThzzYsPuDF5EiMBR6u5NntMEXXA='}
-
-    let limit = 5
+async function getFoursquare(business) {
+	const options = {
+		method: 'GET',
+		headers: {
+		Accept: 'application/json',
+		Authorization: 'fsq3ATzZbmcGhdeFafr73wZcnJ+LlN6bK+4dh19a7ClS4u8='
+		}
+	}
+	let limit = 5
 	let lat = myMap.coordinates[0]
 	let lon = myMap.coordinates[1]
-    let response = await fetch(`https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
+	let response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v3/places/search?&query=${business}&limit=${limit}&ll=${lat}%2C${lon}`, options)
 	let data = await response.text()
 	let parsedData = JSON.parse(data)
-	let businesses = parsedData.result
+	let businesses = parsedData.results
 	return businesses
-
-
 }
 
 function processBusinesses(data) {
