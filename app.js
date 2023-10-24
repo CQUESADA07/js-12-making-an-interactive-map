@@ -5,7 +5,7 @@ async function getCoords(){
     return [pos.coords.latitude, pos.coords.longitude]
 }
 
-const myMap = {
+const myMap ={
     coordinates: [],
     business: [],
     map: {},
